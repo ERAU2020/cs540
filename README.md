@@ -6,7 +6,7 @@ alter table volusia.parcel add column mhhi double precision;
 alter table volusia.parcel add column tractce char(6);
 alter table volusia.parcel add column blkgrpce char(1);
 
-, 
+ 
 select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel 
 COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
 
