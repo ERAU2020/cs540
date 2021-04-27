@@ -1,4 +1,14 @@
 # cs540
+LSTAT - a similar measure used in the Boston Data Set from Chapter 6 of PML text, to determine the % of the Lower Status of the Population.  This measure was shown to have a high correlation to house pricing.  Another student is researching where & how LSTAT is computed, but Diogo and Prof Lehr put together a script to grab the Median HouseHold Income (mhhi) from the Census Bureau.  
+
+Once the MHHI was determined by census block group, any census block group with a null values was updated with its 3 nearest neighbors average mhhi.   See:  update_null_mhhi_plpgsql.sql  which is the Postgres Scripting Language Code which enables you to run loops, decision, and functions in SQL in postgres.  Discussed in the 4/22 announcement:  https://erau.instructure.com/courses/125189/discussion_topics/2168232
+
+Then LSTAT was computed as % of lower status of population, however we interpreted this to mean percentile of mhhi, and then reversed the scale from 100 to 0 to make the measure similar, i.e. the lowest mhhi block groups was scored to be 100th percentile and the highest was scored to be 0th percentile.  And then each value in between was computed as its percentile.
+
+See the code above - determine_lsats.py
+
+Next we found each parcel in the county and which block group the parcel is inside; now since the data is maintained by two different government agencies (local government of Volusia county maintaining the parcel's geospatial boundaries and the census bureau data block groups.  (see Bryce work on LSTAT and Census Tracts, Census Block Groups, and Census Tabulation Blocks).  For this we used the postgres scripting language code:  update_parcel_lstat.sql
+
 Add these columns to your parcel table
 
 alter table volusia.parcel add column lstat double precision;
