@@ -36,7 +36,15 @@ COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\
 
 -- create index
 create index idx_parcel on volusia.parcel (parid);
+create index idx_parcel on volusia.lstat (parid);
 
 update volusia.parcel p set lstat=l.lstat, mhhi=l.mhhi, tractce=l.tractce, blkgrpce=l.blkgrpce from volusia.lstat l where p.parid=l.parid;
+
+-- now many of you will also want to add this lstat and mhhi to your sales analysis table too, so create fields in sales analysis like above, then update those fields with an update-join query like above.
+
+
+alter table volusia.sales_analysis add column lstat double precision;
+alter table volusia.sales_analysis add column mhhi double precision;
+update volusia.sales_analysis s set lstat=l.lstat, mhhi=l.mhhi from volusia.lstat l where s.parid=l.parid;
 
 
