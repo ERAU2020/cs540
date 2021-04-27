@@ -19,9 +19,10 @@ alter table volusia.parcel add column tractce char(6);
 
 alter table volusia.parcel add column blkgrpce char(1);
 
--- here's how I extracted the text file, used the COPY command in reverse, i.e. in reverse of load_tables.bat scripts
+-- here's how I extracted the text file, first I get my SQL command correct, then I used the COPY command in reverse to generate a text file, i.e. in reverse of load_tables.bat scripts
 
-select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel 
+select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel;
+
 COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
 
 drop table if exists volusia.lstat;
