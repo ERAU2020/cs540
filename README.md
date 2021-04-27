@@ -37,7 +37,8 @@ blkgrpce char(1)
 -- load table 
 COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
 
--- create index
+-- create indexes
+
 create index idx_parcel on volusia.parcel (parid);
 
 create index idx_lstat on volusia.lstat (parid);
