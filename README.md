@@ -57,4 +57,7 @@ alter table volusia.sales_analysis add column mhhi double precision;
 
 update volusia.sales_analysis s set lstat=l.lstat, mhhi=l.mhhi from volusia.lstat l where s.parid=l.parid;
 
+-- if you are interested in the census tracts, block-groups, and tabulation blocks see Announcement 4/19 which contains the zip files of the raw shapefiles
+https://erau.instructure.com/courses/125189/discussion_topics/2161653
+
 
