@@ -36,7 +36,7 @@ COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\
 
 -- create index
 create index idx_parcel on volusia.parcel (parid);
-create index idx_parcel on volusia.lstat (parid);
+create index idx_lstat on volusia.lstat (parid);
 
 update volusia.parcel p set lstat=l.lstat, mhhi=l.mhhi, tractce=l.tractce, blkgrpce=l.blkgrpce from volusia.lstat l where p.parid=l.parid;
 
