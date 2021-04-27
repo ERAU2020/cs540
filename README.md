@@ -12,8 +12,11 @@ Next we found each parcel in the county and which block group the parcel is insi
 Add these columns to your parcel table
 
 alter table volusia.parcel add column lstat double precision;
+
 alter table volusia.parcel add column mhhi double precision;
+
 alter table volusia.parcel add column tractce char(6);
+
 alter table volusia.parcel add column blkgrpce char(1);
 
  
@@ -36,6 +39,7 @@ COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\
 
 -- create index
 create index idx_parcel on volusia.parcel (parid);
+
 create index idx_lstat on volusia.lstat (parid);
 
 update volusia.parcel p set lstat=l.lstat, mhhi=l.mhhi, tractce=l.tractce, blkgrpce=l.blkgrpce from volusia.lstat l where p.parid=l.parid;
@@ -44,7 +48,9 @@ update volusia.parcel p set lstat=l.lstat, mhhi=l.mhhi, tractce=l.tractce, blkgr
 
 
 alter table volusia.sales_analysis add column lstat double precision;
+
 alter table volusia.sales_analysis add column mhhi double precision;
+
 update volusia.sales_analysis s set lstat=l.lstat, mhhi=l.mhhi from volusia.lstat l where s.parid=l.parid;
 
 
