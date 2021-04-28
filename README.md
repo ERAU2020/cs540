@@ -24,8 +24,9 @@ select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel;
 COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
 
 
+-- To use this information ON YOUR SIDE of this you'll need to add fields to your parcel table, create a volusia.lstat table, download the data, run copy into table sql code, and execute the update statements below...
 
-To use this information... Add these columns to your parcel table
+-- Add these columns to your parcel table
 
 alter table volusia.parcel add column lstat double precision;
 
@@ -35,7 +36,7 @@ alter table volusia.parcel add column tractce char(6);
 
 alter table volusia.parcel add column blkgrpce char(1);
 
--- on your side, create a table, download the data, and run copy into sql, and update statements below...
+-- create the LSTAT table
 
 drop table if exists volusia.lstat;
 
@@ -48,7 +49,7 @@ tractce char(6),
 blkgrpce char(1)
 );
 
--- load table (see zip file in repository, extract to c:\temp\cs540)
+-- load table (download zip file in repository, extract to c:\temp\cs540)
 
 COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
 
@@ -57,6 +58,8 @@ COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\
 create index idx_parcel on volusia.parcel (parid);
 
 create index idx_lstat on volusia.lstat (parid);
+
+-- now update your parcel table by joining to the new LSTAT table
 
 update volusia.parcel p set lstat=l.lstat, mhhi=l.mhhi, tractce=l.tractce, blkgrpce=l.blkgrpce from volusia.lstat l where p.parid=l.parid;
 
@@ -69,7 +72,9 @@ alter table volusia.sales_analysis add column mhhi double precision;
 
 update volusia.sales_analysis s set lstat=l.lstat, mhhi=l.mhhi from volusia.lstat l where s.parid=l.parid;
 
--- if you are interested in the census tracts, block-groups, and tabulation blocks see Announcement 4/19 which contains the zip files of the raw shapefiles
+-- THATS IT...
+
+-- If you are further interested in the census tracts, block-groups, and tabulation blocks see Announcement 4/19 which contains the zip files of the raw shapefiles
 https://erau.instructure.com/courses/125189/discussion_topics/2161653
 
 
