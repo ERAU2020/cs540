@@ -51,7 +51,7 @@ blkgrpce char(1)
 
 -- load table (download zip file in repository, extract to c:\temp\cs540)
 
-COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
+COPY volusia.lstat from 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
 
 -- create indexes
 
