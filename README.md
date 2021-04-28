@@ -7,7 +7,7 @@ Then LSTAT was computed as % of lower status of population, however we interpret
 
 See the code above - determine_lsats.py
 
-Next we found each parcel in the county and which block group the parcel is inside; now since the data is maintained by two different government agencies (local government of Volusia county maintaining the parcel's geospatial boundaries and the census bureau data block groups.  (see Bryce work on LSTAT and Census Tracts, Census Block Groups, and Census Tabulation Blocks).  For this we used the postgres scripting language code:  update_parcel_lstat.sql
+Next we found each parcel in the county and which block group the parcel is inside, then updated the volusia.parcel record to include the tract, block group, lstat, and median household income.  Since the data is maintained by two different government agencies (local government of Volusia county maintaining the parcel's geospatial boundaries and the census bureau data block groups, we determined which block group contained the centroid of the parcel (as a parcel could cross boundaries of block groups, less likely that the centroid of a parcel would be in more than one block group.   For further explanation of Census Tracts, Census Block Groups, and Census Tabulation Blocks see Bryce's work.  The sql script above:  update_parcel_lstat.sql, contains the code to update the volusia.parcel information.
 
 Add these columns to your parcel table
 
@@ -19,11 +19,13 @@ alter table volusia.parcel add column tractce char(6);
 
 alter table volusia.parcel add column blkgrpce char(1);
 
--- here's how I extracted the text file, first I get my SQL command correct, then I used the COPY command in reverse to generate a text file, i.e. in reverse of load_tables.bat scripts
+-- here's how I extracted the above text file, first I get my SQL command correct, then I used the COPY command in reverse to generate a text file, i.e. in reverse of load_tables.bat scripts
 
 select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel;
 
 COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
+
+-- on your side, create a table, download the data, and run copy into sql, and update statements below...
 
 drop table if exists volusia.lstat;
 
