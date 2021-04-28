@@ -1,7 +1,7 @@
 # cs540
 The goal of this github is to determine the LSTAT of each parcel in the county.  
 
-Why?  the measure LSTAT is used in the Boston Data Set from Chapter 6 of PML text.  LSTAT is shown to have a high correlation to house pricing.  Another student is researching where & how LSTAT was actually computed, but Diogo and Prof Lehr put together a script to compute a similar measure of LSTAT by scaling the Median HouseHold Incomes (mhhi) provided by the Census Bureau at the census block group level.  
+Why?  the measure LSTAT is used in the Boston Data Set from Chapter 6 of PML text.  LSTAT is shown to have a high correlation to house pricing.  Another student is researching where & how LSTAT was actually computed, but Diogo and Prof Lehr put together a script to compute a similar measure of LSTAT by scaling the Median HouseHold Incomes (mhhi) provided by the United States' Census Bureau at the census block group level.  
 
 FYI:  The United States Census Bureau primarily provides data at 3 levels:  Tracts, Block Groups, and Tabulation Blocks.  The lowest geospatial area is the tabulation block, which is collected into block groups and those are gathered into census tracts.  (see work of Bryce for further information)
 
