@@ -1,5 +1,5 @@
 # cs540
-The goal of this github is to determine the LSTAT of each parcel in the county.  
+The goal of this github is to determine the LSTAT of each parcel in Volusia County, as this data is not readily available in the volusia data set.  
 
 Why?  the measure LSTAT is used in the Boston Data Set from Chapter 6 of PML text.  LSTAT is shown to have a high correlation to house pricing.  Another student is researching where & how LSTAT was actually computed, but Diogo and Prof Lehr put together a script to compute a similar measure of LSTAT by scaling the Median HouseHold Incomes (mhhi) provided by the United States' Census Bureau at the census block group level.  
 
