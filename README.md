@@ -19,9 +19,11 @@ At this point, we've computed an LSTAT measure, and appied it to every parcel in
 
 select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel;
 
--- now use the copy command to extract that data into a text file
+-- to extract the desired data, use the copy command to extract query results into a text file
 
 COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
+
+-- the respository's zip file lstat.zip above is the lstat.txt file zipped.
 
 
 -- To use this information ON YOUR SIDE of this you'll need to add fields to your parcel table, create a volusia.lstat table, download the data, run copy into table sql code, and execute the update statements below...
