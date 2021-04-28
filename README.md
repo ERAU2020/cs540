@@ -11,9 +11,21 @@ Before scoring LSTAT, it was noticed that some census block groups in our data s
 
 Next we computed the LSTAT for each block group using the code:  determine_lsats.py - which employs the logic of the paragraphs above, find all mhhi's, rank them, score them, update the census block group's mhhi.
 
-Finally, we determined the block group each parcel in the county is within and updated the volusia.parcel record to include the tract, block group, lstat, and median household income.  With the data being maintained by two different government agencies (highly accurated local government maintaining the parcel's geospatial boundaries and the census bureau data block groups, we determined which block group contained the centroid of the parcel as a parcel polygon could cross boundaries of multiple block groups and thus we used the centroid of a parcel which would be more likely to be in only one block group.   The sql script in this repository:  update_parcel_lstat.sql, contains the code to update the volusia.parcel information.
+Finally, we determined the block group each parcel in the county is within and updated the volusia.parcel record to include the tract, block group, lstat, and median household income.  With the data being maintained by two different government agencies (highly accurated local government maintaining the parcel's geospatial boundaries and potentially less accurate census bureau data block group boundaries).  To simplify and reduce errors, we determined which block group contained the centroid of the parcel polygon; thus eliminating issues of a parcel polygon crossing boundaries of multiple block groups.  Again, its believed the centroid of a parcel would be more likely to be in only one block group.   The sql script in this repository:  update_parcel_lstat.sql, contains the code to update the volusia.parcel information and employs the logic within this paragraph.
 
-Add these columns to your parcel table
+At this point, we've computed an LSTAT measure, and appied it to every parcel in Volusia County that has a geometry.
+
+-- here's how I extracted the repository's zipped text file, first I get my SQL command correct for the data we want to extract.  Then using the COPY command in reverse to generate a text file, i.e. in reverse of load_tables.bat scripts
+
+select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel;
+
+-- now use the copy command to extract that data into a text file
+
+COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
+
+
+
+To use this information... Add these columns to your parcel table
 
 alter table volusia.parcel add column lstat double precision;
 
@@ -22,12 +34,6 @@ alter table volusia.parcel add column mhhi double precision;
 alter table volusia.parcel add column tractce char(6);
 
 alter table volusia.parcel add column blkgrpce char(1);
-
--- here's how I extracted the above text file, first I get my SQL command correct, then I used the COPY command in reverse to generate a text file, i.e. in reverse of load_tables.bat scripts
-
-select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel;
-
-COPY (select parid, lstat, mhhi, tractce, blkgrpce from volusia.parcel ) to 'C:\temp\cs540\lstat.txt' WITH (FORMAT 'csv', DELIMITER E'\t', NULL '', HEADER);
 
 -- on your side, create a table, download the data, and run copy into sql, and update statements below...
 
